@@ -1,61 +1,37 @@
 class Solution {
-
-    public int numMagicSquaresInside(int[][] grid) {
-        int ans = 0;
-        int m = grid.length;
-        int n = grid[0].length;
-        for (int row = 0; row + 2 < m; row++) {
-            for (int col = 0; col + 2 < n; col++) {
-                if (isMagicSquare(grid, row, col)) {
-                    ans++;
-                }
+    private boolean isMagicSquare(int row, int col, int[][] grid) {
+        if (row + 2 >= grid.length || col + 2 >= grid[0].length) return false;
+        int[] r = new int[3];
+        int[] c = new int[3];
+        int[] d = new int[2];
+        int[] seen = new int[11];
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                int val = grid[row + i][col + j];
+                if(val<1 || val > 9||seen[val] == 1)return false;
+                seen[val] = 1;
+                r[i] += val;
+                c[j] += val;
+                if (i == j) d[0] += val;        
+                if (i + j == 2) d[1] += val;       
             }
         }
-        return ans;
+        int s = r[0];
+        for (int i = 0; i < 3; ++i) {
+            if (r[i] != s || c[i] != s) return false;
+        }
+        if (d[0] != s || d[1] != s) return false;
+
+        return true;
     }
 
-    private boolean isMagicSquare(int[][] grid, int row, int col) {
-        boolean[] seen = new boolean[10];
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                int num = grid[row + i][col + j];
-                if (num < 1 || num > 9) return false;
-                if (seen[num]) return false;
-                seen[num] = true;
+    public int numMagicSquaresInside(int[][] grid) {
+        int res = 0;
+        for (int i = 0; i <= grid.length - 3; ++i) {
+            for (int j = 0; j <= grid[0].length - 3; ++j) {
+                if (isMagicSquare(i, j, grid)) ++res;
             }
         }
-
-        int diagonal1 =
-            grid[row][col] + grid[row + 1][col + 1] + grid[row + 2][col + 2];
-        int diagonal2 =
-            grid[row + 2][col] + grid[row + 1][col + 1] + grid[row][col + 2];
-
-        if (diagonal1 != diagonal2) return false;
-        int row1 = grid[row][col] + grid[row][col + 1] + grid[row][col + 2];
-        int row2 =
-            grid[row + 1][col] +
-            grid[row + 1][col + 1] +
-            grid[row + 1][col + 2];
-        int row3 =
-            grid[row + 2][col] +
-            grid[row + 2][col + 1] +
-            grid[row + 2][col + 2];
-
-        if (!(row1 == diagonal1 && row2 == diagonal1 && row3 == diagonal1)) {
-            return false;
-        }
-        int col1 = grid[row][col] + grid[row + 1][col] + grid[row + 2][col];
-        int col2 =
-            grid[row][col + 1] +
-            grid[row + 1][col + 1] +
-            grid[row + 2][col + 1];
-        int col3 =
-            grid[row][col + 2] +
-            grid[row + 1][col + 2] +
-            grid[row + 2][col + 2];
-        if (!(col1 == diagonal1 && col2 == diagonal1 && col3 == diagonal2)) {
-            return false;
-        }
-        return true;
+        return res;
     }
 }
