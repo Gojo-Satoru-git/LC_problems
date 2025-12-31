@@ -1,8 +1,10 @@
 class Solution {
-    private void buildGrid(int[][] cells , int i,int[][] grid){
+    private int[][] buildGrid(int[][] cells , int i,int r,int c){
+        int[][] grid = new int[r][c];
         for(int x = 0 ; x < i ; ++x){
             grid[cells[x][0]-1][cells[x][1]-1] = 1;
         }
+        return grid;
     }
     private boolean isPathExist(int[][] grid){
         int[][] stack = new int[grid.length*grid[0].length][2];
@@ -32,12 +34,10 @@ class Solution {
         int res = 0;
         while(low <= high){
             int mid = low + (high-low)/2;
-            int[][] grid = new int[row][col];
-            buildGrid(cells,mid,grid);
+            int[][] grid = buildGrid(cells,mid,row,col);
             if(isPathExist(grid)){
                 res = mid;
                 low = mid+1;
-                System.out.println("h");
             }else{
                 high = mid-1;
             }
