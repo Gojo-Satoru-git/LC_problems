@@ -1,44 +1,53 @@
+
 class Solution {
     public double separateSquares(int[][] squares) {
-        double totalArea = 0;
-        double low = 2e9;
+        double low = 1e7;
         double high = 0;
+
         for (int[] sq : squares) {
-            double y = sq[1];
-            double l = sq[2];
-            totalArea += l * l;
-            low = Math.min(low, y);
-            high = Math.max(high, y + l);
+            high = Math.max(high, (double) sq[1] + sq[2]);
+            low  = Math.min(low,sq[1]);
         }
 
-        double halfArea = totalArea / 2.0;
-        
-        for (int i = 0; i < 100; i++) {
-            double mid = low + (high - low) / 2.0;
-            if (calculateArea(squares, mid) >= halfArea) {
-                high = mid; 
+        double eps = 1e-6;
+
+        while (high - low > eps) {
+            double mid = (high + low) / 2.0;
+            double diff = check(mid, squares);
+
+            if (diff > 0) {
+                low = mid;      
             } else {
-                low = mid;  
+                high = mid;    
             }
         }
 
-        return high;
+        return low;
     }
-    private double calculateArea(int[][] squares, double currentY) {
-        double area = 0;
+
+    private double check(double mid, int[][] squares) {
+        double above = 0, below = 0;
+
         for (int[] sq : squares) {
             double y = sq[1];
             double l = sq[2];
+            double area = l * l;
+
+            double bottom = y;
             double top = y + l;
 
-            if (y >= currentY) {
-                continue;
-            } else if (top <= currentY) {
-                area += l * l;
-            } else {
-                area += l * (currentY - y);
+            if (top < mid) {       
+                below += area;
+            } else if (bottom > mid) {
+                above += area;
+            } else {                
+                double aboveHeight = top - mid;
+                double belowHeight = mid - bottom;
+                above += aboveHeight * l;
+                below += belowHeight * l;
             }
         }
-        return area;
+
+        return above - below;
     }
 }
