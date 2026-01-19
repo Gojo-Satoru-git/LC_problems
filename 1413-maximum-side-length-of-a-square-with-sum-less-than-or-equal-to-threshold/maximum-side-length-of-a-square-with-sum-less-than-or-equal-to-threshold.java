@@ -11,17 +11,19 @@ class Solution {
             }
         }
         for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                int sum = 0;
-                for (int k = 1; i + k <= m && j + k <= n; ++k) {
-                    sum = 0;
-                    for (int l = i; l < i + k; ++l) {
-                        sum += rowPreSum[l][j + k] - rowPreSum[l][j];
+            for (int j = 0; j < n; ++j){
+                int low = 1, high = Math.min(m - i, n - j);
+                while(low <= high) {
+                    int mid = low + (high - low) / 2;
+                    int sum = 0;
+                    for (int l = i; l < i + mid; ++l) {
+                        sum += rowPreSum[l][j + mid] - rowPreSum[l][j];
                     }
                     if (sum <= threshold) {
-                        res = Math.max(res, k);
+                        res = Math.max(res, mid);
+                        low = mid + 1;
                     } else {
-                        break;
+                        high = mid - 1;           
                     }
                 }
             }
