@@ -1,10 +1,15 @@
 class Solution {
     public int minOperations(String s) {
-        int ct = 0;
-        for(int i = 0 ; i < s.length()  ; ++i){
-            char exp = i % 2 == 0 ? '1' : '0';
-            if(exp == s.charAt(i))++ct;
+        int n = s.length();
+        int cnt0 = 0; 
+        
+        for (int i = 0; i < n; i++) {
+            char expected = (i % 2 == 0 ? '0' : '1');
+            if (s.charAt(i) != expected) {
+                cnt0++;
+            }
         }
-        return Math.min(ct,s.length() - ct);
+        
+        return Math.min(cnt0, n - cnt0);
     }
 }
