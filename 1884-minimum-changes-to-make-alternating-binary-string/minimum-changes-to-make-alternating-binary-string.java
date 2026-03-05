@@ -1,10 +1,10 @@
 class Solution {
     public int minOperations(String s) {
-        int ct1 = 0;
+        int ct = 0;
         for(int i = 0 ; i < s.length()  ; ++i){
-            if(i%2 == 0 && s.charAt(i) == '1')++ct1;
-            else if(i % 2 == 1 && s.charAt(i) == '0')++ct1;
+            char exp = i % 2 == 0 ? '1' : '0';
+            if(exp == s.charAt(i))++ct;
         }
-        return Math.min(ct1,s.length() - ct1);
+        return Math.min(ct,s.length() - ct);
     }
 }
