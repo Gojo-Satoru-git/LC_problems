@@ -11,16 +11,16 @@ class Solution {
             sum[0][j]=sum[0][j-1]+grid[0][j];
         }
         for(int i=1; i<n; i++){
-            for(int j=1; j<m; j++){
+            for(int j=1; j<m && sum[i][j] <= k; j++){
                 sum[i][j]=grid[i][j]+sum[i-1][j]+sum[i][j-1]-sum[i-1][j-1];
             }
         }
-        int result =0;
+        int res =0;
         for(int i=0; i<n; i++){
             for(int j=0; j<m; j++){
-                if(sum[i][j]<=k)result++;
+                if(sum[i][j]<=k)res++;
             }
         }
-        return result;
+        return res;
     }
 }
