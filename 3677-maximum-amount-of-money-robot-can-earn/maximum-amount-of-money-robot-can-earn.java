@@ -1,28 +1,36 @@
 class Solution {
-    public int maximumAmount(int[][] coins) {
-        int n = coins.length;
-        int m = coins[0].length;
-        int[][][] dp = new int[n][m][3];
+    public int fun(int i, int j, int k, int[][] arr, int[][][] dp) {
+        if (i < 0 || j < 0) return Integer.MIN_VALUE; 
+        if (i == 0 && j == 0) {
+            if (arr[0][0] < 0 && k > 0) return 0; 
+            return arr[0][0];
+        }
+        if (dp[i][j][k] != Integer.MIN_VALUE) return dp[i][j][k];
 
-        for (int[][] row : dp) {
-            for (int[] col : row) {
-                java.util.Arrays.fill(col, (int)-1e9);
+        int value = arr[i][j];
+        int best = Integer.MIN_VALUE;
+        int left = fun(i, j - 1, k, arr, dp);
+        int up = fun(i - 1, j, k, arr, dp);
+        if (left != Integer.MIN_VALUE) best = Math.max(best, value + left);
+        if (up != Integer.MIN_VALUE) best = Math.max(best, value + up);
+        if (value < 0 && k > 0) {
+            int leftSkip = fun(i, j - 1, k - 1, arr, dp);
+            int upSkip = fun(i - 1, j, k - 1, arr, dp);
+            if (leftSkip != Integer.MIN_VALUE) best = Math.max(best, leftSkip);
+            if (upSkip != Integer.MIN_VALUE) best = Math.max(best, upSkip);
+        }
+        return dp[i][j][k] = best;
+    }
+
+    public int maximumAmount(int[][] coins) {
+        int m = coins.length;
+        int n = coins[0].length;
+        int[][][] dp = new int[m][n][3]; 
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                Arrays.fill(dp[i][j], Integer.MIN_VALUE);
             }
         }
-
-        dp[0][0][1] = 0;
-        dp[0][0][2] = 0;
-        dp[0][0][0] = coins[0][0];
-
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < m; j++)
-                for (int k = 0; k < 3; k++) {
-                    if (i > 0) dp[i][j][k] = Math.max(dp[i][j][k], dp[i - 1][j][k] + coins[i][j]);
-                    if (i > 0 && k > 0) dp[i][j][k] = Math.max(dp[i][j][k], dp[i - 1][j][k - 1]);
-                    if (j > 0) dp[i][j][k] = Math.max(dp[i][j][k], dp[i][j - 1][k] + coins[i][j]);
-                    if (j > 0 && k > 0) dp[i][j][k] = Math.max(dp[i][j][k], dp[i][j - 1][k - 1]);
-                }
-
-        return Math.max(dp[n - 1][m - 1][0], Math.max(dp[n - 1][m - 1][1], dp[n - 1][m - 1][2]));
+        return fun(m - 1, n - 1, 2, coins, dp); 
     }
 }
