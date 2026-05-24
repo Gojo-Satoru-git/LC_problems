@@ -9,6 +9,7 @@ class Solution {
     }
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         Set<String> set = new HashSet<>(wordList);
+        if(!set.contains(endWord))return 0;
         Queue<Pair<String,Integer>> q = new ArrayDeque<>();
         q.offer(new Pair<>(beginWord,1));  
 
