@@ -38,7 +38,7 @@ class Solution {
                 int[] componentInfo = dfs(i, adj);
                 int N = componentInfo[0];
                 int E = componentInfo[1];
-                System.out.println(N + " " + E);
+                //System.out.println(N + " " + E);
                 if (E == N * (N - 1) / 2) ++ct;  
             }
         }
