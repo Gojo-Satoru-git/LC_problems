@@ -1,28 +1,12 @@
 class Solution {
     public boolean uniformArray(int[] nums1) {
-        boolean isAllOdd = true;
-        for(int n : nums1){
-            if(n % 2 == 0){
-                isAllOdd = false;
-                break;
-            }
-        }
-        if(isAllOdd)return true;
-        boolean isAllEve = true;
-        for(int n : nums1){
-            if(n % 2 != 0){
-                isAllEve = false;
-                break;
-            }
-        }
-        if(isAllEve)return true;
-        int firstOdd = -1;
-        Arrays.sort(nums1);
+        int min = Integer.MAX_VALUE;
+        boolean hasOdd = false;
         for(int n:nums1){
-            if(n % 2 == 1 && firstOdd == -1){
-                firstOdd = n;
-            }else if(n % 2 == 0 && (firstOdd == -1 || n - firstOdd < 1))return false;
+            if((n & 1) == 1)hasOdd = true;
+            min = Math.min(n,min);
         }
-        return true;
+        if((min & 1) == 1)return true;
+        return !hasOdd;
     }
 }
