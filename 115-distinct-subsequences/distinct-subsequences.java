@@ -13,8 +13,9 @@ class Solution {
         return dp[i][j] = cnt;
     }
     public int numDistinct(String s, String t) {
-        int[][] dp = new int[s.length()][t.length()];
-        for(int i = 0 ; i < s.length() ; ++i){
+        int m = s.length() , n = t.length();
+        int[][] dp = new int[m][n];
+        for(int i = 0 ; i < m ; ++i){
             Arrays.fill(dp[i],-1);
         }
         return f(0,0,s,t,dp);
