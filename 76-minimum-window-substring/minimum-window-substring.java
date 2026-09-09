@@ -1,20 +1,14 @@
 class Solution {
-    private int distinctChar(String s){
-        Set<Character> set = new HashSet<>();
-        for(char ch:s.toCharArray()){
-            set.add(ch);
-        }
-        return set.size();
-    }
     public String minWindow(String s, String t) {
         StringBuilder res = new StringBuilder();
         int[] freqt = new int[128];
         int[] freqs = new int[128];
+        int m = 0;
         for(char ch:t.toCharArray()){
+            if(freqt[ch] == 0)++m;
             freqt[ch]++;
         }
         int n = s.length();
-        int m = distinctChar(t);
         int minWindow = Integer.MAX_VALUE;
         int left = 0;
         for(int right = 0 ; right < n ; ++right){
