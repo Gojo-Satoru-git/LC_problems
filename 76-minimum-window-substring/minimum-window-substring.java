@@ -1,6 +1,6 @@
 class Solution {
     public String minWindow(String s, String t) {
-        StringBuilder res = new StringBuilder();
+        String res = "";
         int[] freqt = new int[128];
         int[] freqs = new int[128];
         int m = 0;
@@ -18,14 +18,13 @@ class Solution {
             while(m == 0 && left <= right){
                 if(right - left + 1 < minWindow){
                     minWindow = right - left+1;
-                    res.setLength(0);
-                    res.append(s.substring(left,right+1));
+                    res = s.substring(left,right+1);
                 }
                 char chl = s.charAt(left++);
                 freqs[chl]--;
                 if(freqs[chl] < freqt[chl])++m;
             }
         }
-        return res.toString();
+        return res;
     }
 }
