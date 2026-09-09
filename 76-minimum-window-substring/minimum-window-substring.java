@@ -22,12 +22,10 @@ class Solution {
             freqs[chs]++;
             if(freqs[chs] == freqt[chs])--m;
             while(m == 0 && left <= right){
-                 if(m == 0){
-                    if(right - left + 1 < minWindow){
-                        minWindow = right - left+1;
-                        res.setLength(0);
-                        res.append(s.substring(left,right+1));
-                    }
+                if(right - left + 1 < minWindow){
+                    minWindow = right - left+1;
+                    res.setLength(0);
+                    res.append(s.substring(left,right+1));
                 }
                 char chl = s.charAt(left++);
                 freqs[chl]--;
