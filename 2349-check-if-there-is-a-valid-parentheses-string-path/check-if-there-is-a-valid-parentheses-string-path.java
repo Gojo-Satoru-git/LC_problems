@@ -15,7 +15,8 @@ class Solution {
     }
     public boolean hasValidPath(char[][] grid) {
         int m = grid.length , n  = grid[0].length;
-        int[][][] dp = new int[m][n][m + n + 1];
+        int[][][] dp = new int[m][n][m + n - 1];
+        if ((m + n) % 2 == 0) return false;
         for(int i = 0 ;i < m ; ++i){
             for(int j  = 0 ; j < n ; ++j){
                 Arrays.fill(dp[i][j],-1);
