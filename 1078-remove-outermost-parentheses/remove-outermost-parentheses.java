@@ -5,10 +5,11 @@ class Solution {
         for(char ch :s.toCharArray()){
             if(ch == '('){
                 if(ct != 0)sb.append(ch);
+                ++ct;
             }else{
                 if(ct != 1)sb.append(ch);
+                --ct;
             }
-            ct += (ch == '(' ? +1 : -1);
         }
         return sb.toString();
     }
