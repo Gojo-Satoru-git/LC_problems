@@ -5,7 +5,7 @@ class Solution {
         long res = 0;
         for(int n:nums){
             for(int i = 0 ; i < 31 ; ++i){
-                bits[i] += (n & (1L << i)) != 0 ? 1 : 0;
+                bits[i] += (n >> i & 1);
             }
         }
         while(k-- > 0){
@@ -16,7 +16,7 @@ class Solution {
                     --bits[i];
                 }
             }
-            res = (res + x * x) % mod; 
+            res = (res + (x % mod * x % mod) % mod) % mod; 
         }
         return (int)res;
     }
