@@ -1,45 +1,25 @@
 class Solution {
     public int minOperations(int[] nums) {
-        boolean IisValid = true;
-        int IbreakPoint = 0;
-        int IBidx = -1;
         int n = nums.length;
-        if(n == 1)return 0;
-        for(int i = 0 ; i < n ; ++i){
-            if(nums[i] > nums[(i+1)%n]){
-                ++IbreakPoint;
-                IBidx = (i+1)%n;
-            }
-            if(IbreakPoint > 1){
-                IisValid = false;
-                break;
+        if (n == 1) return 0;
+        int ascents = 0, descents = 0;
+        int ascentIdx = -1, descentIdx = -1;
+        for (int i = 0; i < n; i++) {
+            int next = (i + 1) % n;
+            if (nums[i] > nums[next]) {
+                descents++;
+                descentIdx = next;
+            } else {
+                ascents++;
+                ascentIdx = next;
             }
         }
-        boolean DisValid = true;
-        int DbreakPoint = 0;
-        int DBidx = -1;
-        if(!IisValid){
-            for(int i = 0 ; i < n ; ++i){
-                if(nums[i] < nums[(i+1)%n]){
-                    ++DbreakPoint;
-                    DBidx = (i + 1) % n;
-                }
-                if(DbreakPoint > 1){
-                    DisValid = false;
-                    break;
-                }
-            }
-        }else{
-            DisValid = false;
+        if (descents == 1) {
+            return Math.min(descentIdx, n - descentIdx + 2);
         }
-        //System.out.println(IbreakPoint);
-        //System.out.println(DbreakPoint);
-        //System.out.println(IBidx);
-        //System.out.println(DBidx);
-        if(!IisValid && !DisValid)return -1;
-        if(IisValid){
-            return Math.min(IBidx,n - IBidx + 2);
+        if (ascents == 1) {
+            return 1 + Math.min(ascentIdx, n - ascentIdx);
         }
-        else return 1 + Math.min(DBidx,n-DBidx);
+        return -1;
     }
 }
